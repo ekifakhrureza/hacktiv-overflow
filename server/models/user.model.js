@@ -15,8 +15,7 @@ const userSchema = new Schema({
         type : String,
         trim : true,
         minlength : [6,'Password must be at least 6 characters'],
-        required : [true,'Password cannot be empty'],
-        validate : [/\d/,'Password should contain number']    
+        required : [true,'Password cannot be empty']   
     },
     name : {
         type : String,
@@ -37,6 +36,6 @@ userSchema.pre('save', function(next) {
 
 
 
-let User = mongoose.model('Users', userSchema)
+let User = mongoose.model('User', userSchema)
 
 module.exports = User
