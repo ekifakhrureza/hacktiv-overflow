@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const nodemailer = require('nodemailer')
 
 module.exports = {
-  register (req, res) {
+  register(req, res) {
     User.findOne({
       email: req.body.email
     }).then(data => {
@@ -13,12 +13,12 @@ module.exports = {
           message: 'Email Already Exist'
         })
       }
-      
+
     }).catch(err => {
       console.log(err);
 
     })
-    
+
     let newUser = new User({
       email: req.body.email,
       name: req.body.name,
@@ -39,6 +39,35 @@ module.exports = {
           name: response.name,
           token: token,
         })
+        nodemailer.createTestAccount((err, account) => {
+          let transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true, // true for 465, false for other ports
+            auth: {
+              user: 'hacktiv.overflow.eki@gmail.com', // generated ethereal user
+              pass: process.env.PASSEMAIL // generated ethereal password
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          let mailOptions = {
+            from: '"Hacktiv Overflow" <youremailserviceid@gmail.com>', // sender address
+            to: response.email, // list of receivers
+            subject: 'Eki from Hacktiv Overflow', // Subject line
+            text: 'Welcome to Hacktiv Overflow - I’m so glad you decided to try out Hacktiv Overflow.', // plain text body
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+          });
+        });
       }).catch(err => {
         console.log('error kali');
         console.log(err);
@@ -49,7 +78,7 @@ module.exports = {
       })
   },
 
-  login (req, res) {
+  login(req, res) {
     User.findOne({
       email: req.body.email
     }).then(data => {

@@ -5,6 +5,8 @@ module.exports = {
   getAll (req, res) {
     Question
       .find()
+      .sort([['createdAt', -1]])
+      .populate('userId')
       .exec()
       .then(response => {
         res.status(200).json({
@@ -20,7 +22,9 @@ module.exports = {
   },
   getOne (req, res) {
     let id = req.params.id
-    Question.findById(id)
+    Question
+      .findById(id)
+      .populate('userId')
       .exec()
       .then(response => {
       res.status(200).json({
@@ -88,6 +92,8 @@ module.exports = {
     })
   },
   voteUp (req,res) {
+    console.log('masuk sini gak')
+    
     let id = req.params.id
     let userId = req.decoded.id
     Question.update({ _id: id }, {

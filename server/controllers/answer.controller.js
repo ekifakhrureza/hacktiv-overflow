@@ -7,6 +7,8 @@ module.exports = {
       .find({
         questionId: req.params.id
       })
+      .sort([['createdAt', -1]])
+      .populate('userId')
       .exec()
       .then(response => {
         res.status(200).json({
@@ -29,6 +31,8 @@ module.exports = {
       questionId: req.params.id
     })
     newAnswer.save().then(response => {
+      console.log('sakses');
+      
       res.status(200).json({
         message: 'success insert data',
         data: response
@@ -41,6 +45,7 @@ module.exports = {
     })
   },
   remove (req, res) {
+    console.log(req.params.id);
     Answer.findByIdAndRemove(req.params.id).then(response => {
       res.status(200).json({
         message: 'delete success',

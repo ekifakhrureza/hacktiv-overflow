@@ -27,5 +27,5 @@ let answerSchema = new Schema({
   timestamps: true
 })
 
-let Answer = mongoose.model('Answers',answerSchema)
+let Answer = mongoose.model('Answer',answerSchema)
 module.exports = Answer
