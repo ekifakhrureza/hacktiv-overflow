@@ -61,6 +61,7 @@ module.exports = {
   },
   remove (req, res) {
     let id = req.params.id
+    console.log('aaaa');
     Question.findByIdAndRemove(id).then(response => {
       res.status(200).json({
         message: 'delete success',

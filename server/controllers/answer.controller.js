@@ -7,7 +7,6 @@ module.exports = {
       .find({
         questionId: req.params.id
       })
-      .sort([['createdAt', -1]])
       .populate('userId')
       .exec()
       .then(response => {
@@ -45,8 +44,11 @@ module.exports = {
     })
   },
   remove (req, res) {
-    console.log(req.params.id);
-    Answer.findByIdAndRemove(req.params.id).then(response => {
+    console.log('asup serverrr');
+    Answer.findByIdAndRemove(req.params.id).
+    then(response => {
+      console.log(response);
+      
       res.status(200).json({
         message: 'delete success',
         data: response

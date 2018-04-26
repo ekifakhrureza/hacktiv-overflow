@@ -5,7 +5,7 @@
     			  <i class="far fa-arrow-alt-circle-left"> Back</i>
     		  </button>
     </router-link>
-    <div v-if="getToken!==null">
+    <div v-if="getToken!==null && getTokenEmail===getQuestion.userId.email">
       <button class="float-left btn btn-outline-info ml-2" data-toggle="modal" data-target="#UpdateQuestion">
     			<i class="fas fa-edit"> Update</i>
     		</button>
@@ -96,7 +96,7 @@
         let confirmation = confirm(`Are you sure delete '${title}'?`)
         if (confirmation) {
           let delQuest = {
-            id: index
+            id: idQuestion
           }
           this.removeQuestion(delQuest)
           document.getElementById('comeback').click()

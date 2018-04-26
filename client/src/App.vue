@@ -118,7 +118,7 @@
       };
     },
     methods: {
-      ...mapMutations(['setToken','setTokenName']),
+      ...mapMutations(['setToken','setTokenName','setTokenEmail']),
       onSubmit () {
         this.$validator.validateAll()
       },
@@ -141,11 +141,12 @@
               localStorage.setItem("email", data.data.email)
               this.setToken(localStorage.getItem('token'))
               this.setTokenName(localStorage.getItem('name'))
+              this.setTokenName(localStorage.getItem('email'))
               document.getElementById("close").click()
               this.email = ''
               this.name = ''
               this.password = ''
-              alert('Check you email to see our message')
+              alert('Check your email to see our message')
             }
           })
           .catch(err => {
@@ -169,6 +170,7 @@
               localStorage.setItem("email", data.data.email)
               this.setToken(localStorage.getItem('token'))
               this.setTokenName(localStorage.getItem('name'))
+              this.setTokenEmail(localStorage.getItem('email'))
                document.getElementById("closelogin").click()
               this.email = ''
               this.password = ''
@@ -185,6 +187,7 @@
         localStorage.removeItem('email')
         this.setToken(null)
         this.setTokenName(null)
+        this.setTokenEmail(null)
       }
     },
     computed: {

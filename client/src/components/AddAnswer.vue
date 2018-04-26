@@ -24,31 +24,30 @@
 </template>
 
 <script>
-import {
-  mapActions,
-  mapGetters
-} from 'vuex'
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
-  name: 'AddAnswer',
-  data () {
+  name: "AddAnswer",
+  data() {
     return {
       id: this.$route.params.id,
-      comment: ''
-    }
+      comment: ""
+    };
   },
   methods: {
-    ...mapActions([
-      'addAnswer', 'getAllQuestion'
-    ]),
-    reply () {
-        let newAnswer = {
-            id : this.$route.params.id,
-            comment: this.comment
-          }
-          this.addAnswer(newAnswer)
-          document.getElementById('closereply').click()
-      }
+    ...mapActions(["addAnswer", "getAllQuestion"]),
+    ...mapMutations(['setToken','setTokenName','setTokenEmail']),
+    reply() {
+      let newAnswer = {
+        id: this.$route.params.id,
+        comment: this.comment
+      };
+      this.addAnswer(newAnswer);
+      this.setToken(localStorage.getItem("token"));
+      this.setTokenName(localStorage.getItem("name"));
+      this.setTokenEmail(localStorage.getItem("email"));
+      document.getElementById("closereply").click();
+      this.comment = "";
+    }
   }
-    
-}
+};
 </script>

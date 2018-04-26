@@ -4,8 +4,8 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 const instance = axios.create({
-  baseURL: 'http://localhost:3000',
-  headers: { 'token': localStorage.getItem('token') }
+  baseURL: 'http://localhost:3000'
+  // headers: { 'token': localStorage.getItem('token') }
 })
 export default new Vuex.Store({
   state: {
@@ -83,6 +83,8 @@ export default new Vuex.Store({
         .post('/questions/add', {
           title: payload.title,
           content: payload.content
+        }, {
+          headers: { 'token': localStorage.getItem('token') }
         })
         .then(response => {
           context.dispatch('getAllQuestion')
@@ -96,6 +98,8 @@ export default new Vuex.Store({
         .put(`/questions/update/${payload.id}`, {
           title: payload.title,
           content: payload.content
+        }, {
+          headers: { 'token': localStorage.getItem('token') }
         })
         .then(response => {
           context.dispatch('getDetailQuestion', payload.id)
@@ -107,16 +111,23 @@ export default new Vuex.Store({
     removeQuestion (context, payload) {
       console.log(payload.id)
       instance
-        .delete(`/questions/delete/${payload.id}`, {})
+        .delete(`/questions/delete/${payload.id}`, {
+          headers: { 'token': localStorage.getItem('token') }
+        })
         .then(response => {
           context.dispatch('getAllQuestion')
         }).catch(err => {
+          console.log('dan ternyata error')
+
           console.log(err)
         })
     },
     upQuestion (context, payload) {
       instance
-        .put(`/questions/voteUp/${payload.idQuestion}`, {})
+        .put(`/questions/voteUp/${payload.idQuestion}`, {},
+          {
+            headers: { 'token': localStorage.getItem('token') }
+          })
         .then(response => {
           context.dispatch('getDetailQuestion', payload.idQuestion)
         })
@@ -126,7 +137,10 @@ export default new Vuex.Store({
     },
     downQuestion (context, payload) {
       instance
-        .put(`/questions/voteDown/${payload.idQuestion}`, {})
+        .put(`/questions/voteDown/${payload.idQuestion}`, {},
+          {
+            headers: { 'token': localStorage.getItem('token') }
+          })
         .then(response => {
           context.dispatch('getDetailQuestion', payload.idQuestion)
         })
@@ -136,7 +150,9 @@ export default new Vuex.Store({
     },
     upAnswer (context, payload) {
       instance
-        .put(`/answers/voteUp/${payload.idAnswer}`, {})
+        .put(`/answers/voteUp/${payload.idAnswer}`, {},{
+          headers: { 'token': localStorage.getItem('token') }
+        })
         .then(response => {
           context.dispatch('getDetailQuestion', payload.idQuestion)
         })
@@ -146,7 +162,10 @@ export default new Vuex.Store({
     },
     downAnswer (context, payload) {
       instance
-        .put(`/answers/voteDown/${payload.idAnswer}`, {})
+        .put(`/answers/voteDown/${payload.idAnswer}`, {},
+          {
+            headers: { 'token': localStorage.getItem('token') }
+          })
         .then(response => {
           context.dispatch('getDetailQuestion', payload.idQuestion)
         })
@@ -158,21 +177,28 @@ export default new Vuex.Store({
       instance
         .post(`/answers/add/${payload.id}`, {
           comment: payload.comment
+        }, {
+          headers: { 'token': localStorage.getItem('token') }
         })
         .then(response => {
           context.dispatch('getDetailQuestion', payload.id)
         })
         .catch(err => {
+          console.log('error lagi')
+
           console.log(err)
         })
     },
     deleteAnswer (context, payload) {
       instance
-        .delete(`/answers/delete/${payload.idAnswer}`, {})
+        .delete(`/answers/delete/${payload.idAnswer}`,{
+          headers: { 'token': localStorage.getItem('token') }
+        })
         .then(response => {
           context.dispatch('getDetailQuestion', payload.idQuestion)
         })
         .catch(err => {
+          console.log('err yang samaaa')
           console.log(err)
         })
     }
